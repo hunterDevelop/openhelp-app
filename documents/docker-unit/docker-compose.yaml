@@ -1,0 +1,31 @@
+services:
+  unit:
+    build:
+      context: .
+      dockerfile: ./unit.dockerfile
+    container_name: help_unit
+    env_file:
+      - ../.env.php
+    ports:
+      - "8010:80"
+    volumes:
+      - ../../sources:/app:rw
+      - ./unit.json:/docker-entrypoint.d/config.json:ro
+    networks:
+      - help_network
+
+  db:
+    image: mysql:8.0
+    container_name: help_mysql
+    env_file:
+      - ../.env.mysql
+    volumes:
+      - ../../database:/var/lib/mysql
+    networks:
+      - help_network
+    ports:
+      - "8016:3306"
+
+networks:
+  help_network:
+    driver: bridge

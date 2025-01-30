@@ -1,1 +1,4 @@
 .idea
+database
+documents/.env.mysql.local
+documents/.env.php.local
