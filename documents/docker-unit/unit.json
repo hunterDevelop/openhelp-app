@@ -1,0 +1,25 @@
+{
+  "listeners": {
+    "*:80": {
+      "pass": "routes"
+    }
+  },
+  "routes": [
+    {
+      "match": {
+        "uri": "/*"
+      },
+      "action": {
+        "pass": "applications/php"
+      }
+    }
+  ],
+  "applications": {
+    "php": {
+      "type": "php",
+      "processes": 4,
+      "root": "/app/public",
+      "index": "index.php"
+    }
+  }
+}

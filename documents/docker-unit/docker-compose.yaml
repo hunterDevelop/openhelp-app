@@ -1,0 +1,38 @@
+services:
+  unit:
+    build:
+      context: .
+      dockerfile: ./unit.dockerfile
+    container_name: help_unit
+    environment:
+      APP_SECRET: "my-dev-secret-key"
+      DB_NAME: openhelp
+      DB_HOST: db
+      DB_USER: user
+      DB_PASSWORD: pxzLfCBxLe26lS
+    ports:
+      - "8010:80"
+    volumes:
+      - ../../sources:/app:rw
+      - ./unit.json:/docker-entrypoint.d/config.json:ro
+    networks:
+      - help_network
+
+  db:
+    image: mysql:8.0
+    container_name: help_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: openhelp
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pxzLfCBxLe26lS
+    volumes:
+      - ../../database:/var/lib/mysql
+    networks:
+      - help_network
+    ports:
+      - "8016:3306"
+
+networks:
+  help_network:
+    driver: bridge
