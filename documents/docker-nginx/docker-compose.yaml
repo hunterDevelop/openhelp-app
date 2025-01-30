@@ -1,16 +1,27 @@
 services:
-  unit:
-    build:
-      context: .
-      dockerfile: ./unit.dockerfile
-    container_name: help_unit
-    env_file:
-      - ../.env.local
+  nginx:
+    image: nginx:latest
+    container_name: help_nginx
     ports:
-      - "8010:80"
+      - "8011:80"
     volumes:
       - ../../sources:/app:rw
-      - ./unit.json:/docker-entrypoint.d/config.json:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - php
+    networks:
+      - help_network
+
+  php:
+    image: php:8.3-fpm
+    container_name: help_php
+    env_file:
+      - ../.env.local
+    volumes:
+      - ../../sources:/app:rw
+      - ./env.sh:/usr/local/bin/env.sh:ro
+    entrypoint: ["/usr/local/bin/env.sh"]
+    command: ["php-fpm"]
     networks:
       - help_network
 
@@ -22,8 +33,6 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
-    env_file:
-      - ../.env.local
     volumes:
       - ../../database:/var/lib/mysql
     networks:
