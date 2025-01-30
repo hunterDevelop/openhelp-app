@@ -4,12 +4,8 @@ services:
       context: .
       dockerfile: ./unit.dockerfile
     container_name: help_unit
-    environment:
-      APP_SECRET: "my-dev-secret-key"
-      DB_NAME: openhelp
-      DB_HOST: db
-      DB_USER: user
-      DB_PASSWORD: pxzLfCBxLe26lS
+    env_file:
+      - ../.env.php
     ports:
       - "8010:80"
     volumes:
@@ -21,11 +17,8 @@ services:
   db:
     image: mysql:8.0
     container_name: help_mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: openhelp
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pxzLfCBxLe26lS
+    env_file:
+      - ../.env.mysql
     volumes:
       - ../../database:/var/lib/mysql
     networks:

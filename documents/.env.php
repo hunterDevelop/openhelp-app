@@ -1,0 +1,6 @@
+APP_SECRET:
+
+DB_NAME: openhelp
+DB_HOST: db
+DB_USER: user
+DB_PASSWORD:
