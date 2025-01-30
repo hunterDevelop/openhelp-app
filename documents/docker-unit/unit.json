@@ -10,7 +10,10 @@
         "uri": "/*"
       },
       "action": {
-        "pass": "applications/php"
+        "share": "/app/public$uri",
+        "fallback": {
+          "pass": "applications/php"
+        }
       }
     }
   ],
@@ -19,7 +22,8 @@
       "type": "php",
       "processes": 4,
       "root": "/app/public",
-      "index": "index.php"
+      "index": "index.php",
+      "script": "index.php"
     }
   }
 }
