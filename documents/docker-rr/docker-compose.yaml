@@ -1,0 +1,33 @@
+services:
+  rr:
+    build:
+      context: .
+      dockerfile: ./rr.dockerfile
+    container_name: help_rr
+    env_file:
+      - ../.env.local
+    volumes:
+      - ../../sources:/app:rw
+    ports:
+      - "8012:80"
+    networks:
+      - help_network
+
+  db:
+    image: mysql:8.0
+    container_name: help_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ../../database:/var/lib/mysql
+    networks:
+      - help_network
+    ports:
+      - "8016:3306"
+
+networks:
+  help_network:
+    driver: bridge
