@@ -10,6 +10,12 @@ docker-nginx-up: generate-env
 docker-nginx-down:
 	@docker-compose --env-file documents/.env.local -f documents/docker-nginx/docker-compose.yaml down
 
+docker-rr-up: generate-env
+	@docker-compose --env-file documents/.env.local -f documents/docker-rr/docker-compose.yaml up --build
+
+docker-rr-down:
+	@docker-compose --env-file documents/.env.local -f documents/docker-rr/docker-compose.yaml down
+
 generate-env:
 	@if [ ! -f ./documents/.env.local ]; then \
 		cp ./documents/.env.dist ./documents/.env.local && \
